@@ -1,5 +1,6 @@
 const API_BASE_URL =
-  (import.meta as any).env?.VITE_API_URL?.replace(/\/$/, '') || 'http://localhost:5000/api';
+  (import.meta as any).env?.VITE_API_URL?.replace(/\/$/, '') ||
+  (typeof window !== 'undefined' ? `${window.location.origin}/api` : 'http://localhost:5000/api');
 
 export const storageKeys = {
   user: 'eventflow_user',
