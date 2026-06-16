@@ -49,6 +49,8 @@ interface MappedEvent {
   location: string;
   image?: string;
   status: string;
+  startDateRaw?: string;
+  availableSeats?: number;
 }
 
 export default function BrowseEvents() {
@@ -58,6 +60,7 @@ export default function BrowseEvents() {
   const [showFilters, setShowFilters] = useState(false);
   const [events, setEvents] = useState<MappedEvent[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState('date-soonest');
   const categories = ['All', 'Music', 'Conference', 'Sports', 'Entertainment', 'Arts', 'Food & Drink'];
   const dateFilters = ['All Dates', 'Today', 'This Week', 'This Month', 'This Year'];
 
@@ -82,7 +85,9 @@ export default function BrowseEvents() {
           time: e.startDate ? new Date(e.startDate).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '',
           location: e.venue ? `${e.venue.name}${e.venue.city ? ', ' + e.venue.city : ''}` : 'TBA',
           image: getImageUrl(e.image),
-          status: (e.status || 'approved').toLowerCase()
+          status: (e.status || 'approved').toLowerCase(),
+          startDateRaw: e.startDate,
+          availableSeats: e.availableSeats
         }));
         setEvents(mapped);
       }
@@ -107,6 +112,17 @@ export default function BrowseEvents() {
       event.category.toLowerCase().includes(normalizedQuery);
 
     return matchesCategory && matchesSearch;
+  }).sort((a, b) => {
+    switch (sortBy) {
+      case 'date-soonest':
+        return (a.startDateRaw || '').localeCompare(b.startDateRaw || '');
+      case 'date-latest':
+        return (b.startDateRaw || '').localeCompare(a.startDateRaw || '');
+      case 'popular':
+        return (a.availableSeats ?? Infinity) - (b.availableSeats ?? Infinity);
+      default:
+        return 0;
+    }
   });
 
   return (
@@ -214,10 +230,14 @@ export default function BrowseEvents() {
             <p className="text-gray-600">
               <span className="text-gray-900">{filteredEvents.length}</span> events found
             </p>
-            <select className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-              <option>Most Popular</option>
-              <option>Date: Soonest</option>
-              <option>Date: Latest</option>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="date-soonest">Date: Soonest</option>
+              <option value="date-latest">Date: Latest</option>
+              <option value="popular">Most Popular</option>
             </select>
           </div>
 
