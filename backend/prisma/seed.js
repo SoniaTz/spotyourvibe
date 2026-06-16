@@ -220,6 +220,44 @@ async function main() {
     },
   });
 
+  // Create Event with Assigned Seating
+  const event5 = await prisma.event.create({
+    data: {
+      title: 'Broadway Theater Night',
+      shortDescription: 'Reserved seating — pick your exact seats',
+      fullDescription: 'Enjoy a world-class Broadway performance from your chosen seats. Every seat has a clear view of the stage.',
+      seatingType: 'assigned',
+      seatRows: 5,
+      seatColumns: 10,
+      maxTicketsPerOrder: 6,
+      startDate: new Date('2026-08-15T19:30:00'),
+      endDate: new Date('2026-08-15T22:00:00'),
+      maxCapacity: 50,
+      availableSeats: 50,
+      status: 'APPROVED',
+      organizerId: organizer.id,
+      venueId: comedyClub.id,
+      categoryId: entertainmentCategory.id,
+    },
+  });
+
+  // Generate seats for the assigned-seating event
+  const seatData = [];
+  const rowLabels = 'ABCDE';
+  for (let r = 0; r < 5; r++) {
+    for (let c = 1; c <= 10; c++) {
+      seatData.push({
+        eventId: event5.id,
+        row: rowLabels[r],
+        number: c,
+        label: `${rowLabels[r]}${c}`,
+        status: 'available',
+      });
+    }
+  }
+  await prisma.seat.createMany({ data: seatData });
+  console.log('✅ Assigned-seating event with 50 seats created');
+
   console.log('✅ Events created');
 
   // Create Sample Bookings
