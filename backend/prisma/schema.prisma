@@ -1,0 +1,170 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password      String
+  phone         String?
+  role              String   @default("USER")
+  emailVerified     Boolean  @default(false)
+  securityQuestion  String?
+  securityAnswer    String?  // Hashed like a password
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  bookings              Booking[]
+  events                Event[]
+  organizerApplication  OrganizerApplication?
+  comments              Comment[]
+  notifications         Notification[]
+}
+
+model OrganizerApplication {
+  id               String            @id @default(uuid())
+  userId           String            @unique
+  organizationName String
+  phone            String
+  description      String
+  website          String?
+  documentFile     String?
+  status           String            @default("PENDING")
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  events Event[]
+}
+
+model Venue {
+  id       String @id @default(uuid())
+  name     String
+  address  String
+  city     String
+  capacity Int
+
+  events Event[]
+}
+
+model Event {
+  id               String      @id @default(uuid())
+  title            String
+  shortDescription String
+  fullDescription  String
+  image            String?
+  importantInfo   String?    // JSON string array of bullet points
+  lineup          String?    // JSON string array of artists/performers
+  seatingType      String      @default("general") // "general" = no seating map | "assigned" = seat map with rows/columns
+  seatRows         Int?        // Number of rows for assigned seating
+  seatColumns      Int?        // Number of columns (seats per row) for assigned seating
+  maxTicketsPerOrder Int        @default(10) // Maximum tickets a single user can purchase
+  startDate        DateTime
+  endDate          DateTime
+  maxCapacity     Int
+  availableSeats Int
+  status          String      @default("PENDING")
+  organizerId     String
+  venueId         String
+  categoryId      String
+  createdAt       DateTime    @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organizer User     @relation(fields: [organizerId], references: [id], onDelete: Cascade)
+  venue     Venue    @relation(fields: [venueId], references: [id])
+  category  Category @relation(fields: [categoryId], references: [id])
+  bookings  Booking[]
+  seats     Seat[]
+  comments  Comment[]
+  notifications Notification[]
+
+  @@index([status])
+  @@index([organizerId])
+  @@index([categoryId])
+  @@index([venueId])
+}
+
+model Booking {
+  id            String   @id @default(uuid())
+  userId        String
+  eventId       String
+  seatsReserved Int
+  seatNumbers   String?  // JSON array of seat labels like ["A1","A2"] for assigned seating
+  contactName   String?
+  contactEmail  String?
+  contactPhone  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event  Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  seats  Seat[]
+
+  @@index([userId])
+  @@index([eventId])
+}
+
+model Seat {
+  id        String @id @default(uuid())
+  eventId   String
+  row       String // Row label like "A", "B", etc.
+  number    Int    // Seat number within the row (1, 2, 3...)
+  label     String // Combined label like "A1", "B5"
+  status    String @default("available") // "available", "held", "booked"
+  bookingId String? // Which booking holds this seat
+
+  event   Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  booking Booking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+
+  @@unique([eventId, label])
+  @@index([eventId])
+  @@index([bookingId])
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+  content    String
+  userId     String
+  eventId    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([eventId])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String   // EVENT_APPROVED, EVENT_REJECTED, EVENT_DELETED, NEW_BOOKING, ORGANIZER_APPROVED, ORGANIZER_REJECTED
+  message   String
+  eventId   String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event? @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([read])
+}
