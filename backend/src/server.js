@@ -73,22 +73,13 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/notifications', notificationRoutes);
 
-// Serve frontend in production
-if (process.env.NODE_ENV === 'production') {
-  const frontendBuildPath = path.join(__dirname, '../../frontend/dist');
-  app.use(express.static(frontendBuildPath));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendBuildPath, 'index.html'));
+// 404 handler
+app.use('*', (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route not found'
   });
-} else {
-  // 404 handler (development only)
-  app.use('*', (req, res) => {
-    res.status(404).json({
-      success: false,
-      message: 'Route not found'
-    });
-  });
-}
+});
 
 // Error handler (must be last)
 app.use(errorHandler);
