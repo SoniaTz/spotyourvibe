@@ -160,6 +160,10 @@ export default function BecomeOrganizer() {
       const data = await res.json();
 
       if (!res.ok) {
+        if (data.errors && Array.isArray(data.errors)) {
+          const errorMessages = data.errors.map((e: any) => e.message).join('. ');
+          throw new Error(errorMessages || data.message);
+        }
         throw new Error(data.message || 'Failed to submit application');
       }
 
