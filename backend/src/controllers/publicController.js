@@ -16,16 +16,22 @@ export const getContactInfo = async (req, res, next) => {
       return res.json({
         success: true,
         data: {
-          email: 'admin@spotyourvibe.com',
+          email: 'superadmin@spotyourvibe.com',
           phone: '+1 (555) 000-0000',
           name: 'Super Admin'
         }
       });
     }
 
+    // Always serve the correct domain, even if DB has old data
+    const data = {
+      ...superadmin,
+      email: superadmin.email.replace('@eventflow.com', '@spotyourvibe.com')
+    };
+
     res.json({
       success: true,
-      data: superadmin
+      data
     });
   } catch (error) {
     next(error);
