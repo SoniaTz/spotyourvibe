@@ -34,8 +34,6 @@ export default function Login() {
     fetchEmail();
   }, []);
 
-  const from = (location.state as any)?.from?.pathname || '/';
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -44,7 +42,7 @@ export default function Login() {
     try {
       await login(formData.email, formData.password);
       toast.success('Successfully signed in!');
-      navigate(from, { replace: true });
+      navigate('/', { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
       toast.error(err instanceof Error ? err.message : 'Login failed');

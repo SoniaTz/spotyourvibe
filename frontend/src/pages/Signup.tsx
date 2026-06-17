@@ -160,9 +160,9 @@ export default function Signup() {
       
       if (formData.role === 'organizer') {
         toast.info('Your organizer application is pending admin approval. You can use the platform as a regular user in the meantime.');
-        navigate('/events');
+        navigate('/');
       } else {
-        navigate('/events');
+        navigate('/');
       }
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Signup failed';
