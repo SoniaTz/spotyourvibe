@@ -1,15 +1,19 @@
 # EventFlow - Event Management System
 
-A full-stack event management and ticketing platform built with React, Express.js, Prisma, and SQLite. Create, manage, and book events with seat selection, analytics, comments, and real-time notifications.
+A full-stack event management and ticketing platform built with React, Express.js, Prisma, and PostgreSQL. Create, manage, and book events with seat selection, analytics, comments, and real-time notifications.
+
+> 🌐 **Live Demo**: [https://eventflow-frontend-sable.vercel.app](https://eventflow-frontend-sable.vercel.app)
 
 ## Table of Contents
 
 - [Overview](#overview)
 - [Tech Stack](#tech-stack)
+- [Live Demo](#live-demo)
 - [Project Structure](#project-structure)
 - [Quick Start](#quick-start)
 - [Running Both Frontend & Backend](#running-both-frontend--backend)
 - [Environment Setup](#environment-setup)
+- [Deployment](#deployment)
 - [Features](#features)
 - [API Documentation](#api-documentation)
 - [Database](#database)
@@ -37,7 +41,6 @@ The platform supports four user roles: **User**, **Organizer**, **Admin**, and *
 - **Vite** - Fast build tool and dev server
 - **Tailwind CSS** - Styling
 - **React Router** - Client-side routing
-- **Axios** - HTTP client
 - **Recharts** - Data visualization
 - **Lucide React** - Icon library
 - **Sonner** - Toast notifications
@@ -49,11 +52,29 @@ The platform supports four user roles: **User**, **Organizer**, **Admin**, and *
 ### Backend
 - **Node.js & Express** - Server framework
 - **Prisma** - ORM
-- **SQLite** - Database
+- **PostgreSQL** - Database (production)
+- **SQLite** - Database (development fallback)
 - **JWT** - Authentication
 - **Bcrypt** - Password hashing
 - **Multer** - File uploads
 - **Zod** - Data validation
+
+## Live Demo
+
+The application is deployed and accessible at:
+
+| Service | URL | Hosting |
+|---------|-----|---------|
+| **Frontend** | [https://eventflow-frontend-sable.vercel.app](https://eventflow-frontend-sable.vercel.app) | Vercel |
+| **Backend API** | [https://eventflow-r4qb.onrender.com](https://eventflow-r4qb.onrender.com) | Render |
+| **Health Check** | [https://eventflow-r4qb.onrender.com/health](https://eventflow-r4qb.onrender.com/health) | Render |
+
+### Demo Credentials
+
+After running the seed script, you can log in with:
+- **Admin**: `admin@eventflow.com` / `admin123`
+- **Organizer**: `organizer@eventflow.com` / `organizer123`
+- **User**: `user@eventflow.com` / `user123`
 
 ## Project Structure
 
@@ -72,7 +93,7 @@ eventflow/
 │   │   │   └── Toaster.tsx
 │   │   ├── contexts/         # React contexts (Auth)
 │   │   ├── lib/              # Utilities and helpers
-│   │   │   ├── api.ts              # Axios API client
+│   │   │   ├── api.ts              # Fetch API client
 │   │   │   ├── fontBase64.ts       # Embedded fonts for PDF
 │   │   │   ├── generateTicketPdf.ts # PDF ticket generation
 │   │   │   └── utils.ts            # Utility functions
@@ -130,6 +151,7 @@ eventflow/
 ### Prerequisites
 - **Node.js** 18+ 
 - **npm** or **yarn**
+- **PostgreSQL** (for production-like environment) or SQLite (development)
 
 ### Option 1: Run Everything Together (Recommended)
 
@@ -139,6 +161,8 @@ npm install
 ```
 
 2. **Create backend `.env` file:**
+
+For **SQLite** (easiest for local development):
 ```bash
 cd backend
 cat > .env << EOF
@@ -147,6 +171,20 @@ PORT=5000
 FRONTEND_URL=http://localhost:5173
 JWT_SECRET=your-secret-key-change-this-in-production
 DATABASE_URL=file:./dev.db
+EOF
+cd ..
+```
+
+For **PostgreSQL** (matches production):
+```bash
+cd backend
+cat > .env << EOF
+NODE_ENV=development
+PORT=5000
+FRONTEND_URL=http://localhost:5173
+JWT_SECRET=your-secret-key-change-this-in-production
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/eventflow
+UPLOAD_DIR=./uploads
 EOF
 cd ..
 ```
@@ -162,8 +200,15 @@ cd ..
 
 4. **Initialize the database:**
 ```bash
+# For SQLite:
 cd backend
 npm run prisma:migrate
+npm run seed
+cd ..
+
+# For PostgreSQL:
+cd backend
+npx prisma db push
 npm run seed
 cd ..
 ```
@@ -225,6 +270,8 @@ npm run lint
 ### Backend `.env` File
 
 Create `backend/.env` (see `backend/.env.example`):
+
+For **SQLite** (development):
 ```
 NODE_ENV=development
 PORT=5000
@@ -233,12 +280,57 @@ JWT_SECRET=your-super-secret-key-change-in-production
 DATABASE_URL=file:./dev.db
 ```
 
+For **PostgreSQL** (production):
+```
+NODE_ENV=development
+PORT=5000
+FRONTEND_URL=http://localhost:5173
+JWT_SECRET=your-super-secret-key-change-in-production
+DATABASE_URL=postgresql://user:password@localhost:5432/eventflow
+UPLOAD_DIR=./uploads
+```
+
 ### Frontend `.env.local` File
 
 Create `frontend/.env.local` (see `frontend/.env.example`):
 ```
 VITE_API_URL=http://localhost:5000/api
 ```
+
+## Deployment
+
+### Backend (Render)
+
+1. Push your code to GitHub
+2. Go to [Render Dashboard](https://dashboard.render.com) → **New +** → **Web Service**
+3. Connect your GitHub repository
+4. Configure:
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install && npx prisma generate`
+   - **Start Command**: `npx prisma migrate deploy && node src/server.js`
+5. Add environment variables:
+   - `NODE_ENV=production`
+   - `PORT=10000`
+   - `FRONTEND_URL=https://your-vercel-app.vercel.app`
+   - `DATABASE_URL` = your Render PostgreSQL connection string
+   - `JWT_SECRET` = a strong random secret
+   - `UPLOAD_DIR=/tmp/uploads`
+6. Create a **Render PostgreSQL** database and copy the Internal Database URL
+7. Deploy
+
+### Frontend (Vercel)
+
+1. Go to [Vercel Dashboard](https://vercel.com) → **Add New** → **Project**
+2. Import your GitHub repository
+3. Configure:
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+4. Add environment variable:
+   - `VITE_API_URL=https://your-render-app.onrender.com/api`
+5. Deploy
+
+> ⚠️ **Important**: Make sure `FRONTEND_URL` on Render has **no trailing slash**, and `VITE_API_URL` on Vercel **ends with `/api`**.
 
 ## Features
 
@@ -432,9 +524,9 @@ For complete API documentation, see [backend/README.md](backend/README.md)
 
 ## Database
 
-### Setting Up Database
+The backend uses **PostgreSQL** in production (Render) and can use **SQLite** for local development.
 
-The backend uses **SQLite** with **Prisma** ORM.
+### Local Development with SQLite
 
 1. **Initialize database:**
 ```bash
@@ -451,8 +543,30 @@ npm run seed
 ```bash
 npm run prisma:studio
 ```
-
 This opens a GUI at `http://localhost:5555`
+
+### Local Development with PostgreSQL
+
+1. Make sure PostgreSQL is running locally
+2. Update `DATABASE_URL` in `backend/.env`:
+```
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/eventflow
+```
+3. Push the schema:
+```bash
+npx prisma db push
+```
+4. Seed:
+```bash
+npm run seed
+```
+
+### Production (Render + PostgreSQL)
+
+The database is managed through Render PostgreSQL. Migrations run automatically on deploy via the start command:
+```
+npx prisma migrate deploy && node src/server.js
+```
 
 ### Database Schema
 
@@ -499,10 +613,18 @@ taskkill /PID <PID> /F
 
 ### Database Reset
 
+**SQLite:**
 ```bash
 cd backend
 rm prisma/dev.db
 npm run prisma:migrate
+npm run seed
+```
+
+**PostgreSQL:**
+```bash
+cd backend
+npx prisma migrate reset --force
 npm run seed
 ```
 
@@ -578,9 +700,11 @@ NODE_ENV=production npm start
 
 ## Project Status
 
+- **Live**: [https://eventflow-frontend-sable.vercel.app](https://eventflow-frontend-sable.vercel.app)
+- **Backend API**: [https://eventflow-r4qb.onrender.com](https://eventflow-r4qb.onrender.com)
 - **Backend** - Fully implemented with all APIs (auth, events, bookings, comments, analytics, notifications, admin, organizer)
 - **Frontend** - All pages and components created (17 pages, 8 components)
-- **Database** - Prisma schema and migrations complete (9 models)
+- **Database** - Prisma schema and migrations complete (9 models) — PostgreSQL in production
 - **Authentication** - JWT with security questions for password reset
 - **Styling** - Tailwind CSS configured
 - **Notifications** - Real-time notification system
@@ -604,3 +728,4 @@ Ready to start developing?
 2. Follow the **Quick Start** section above
 3. Visit http://localhost:5173 in your browser
 4. The API will be running at http://localhost:5000
+5. Or check out the live version at [https://eventflow-frontend-sable.vercel.app](https://eventflow-frontend-sable.vercel.app)
