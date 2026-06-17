@@ -30,7 +30,7 @@ interface OrganizerApplication {
 }
 
 const fallbackUsers: User[] = [
-  { id: '2', name: 'Event Organizer', email: 'organizer@eventflow.com', role: 'organizer', verified: true, createdAt: '6 months ago', bookings: 0, events: 12, organizerApplication: { organizationName: 'EventCo', phone: '555-1234', website: 'https://eventco.com', description: 'Professional event organizing company', status: 'APPROVED' } },
+  { id: '2', name: 'Event Organizer', email: 'organizer@spotyourvibe.com', role: 'organizer', verified: true, createdAt: '6 months ago', bookings: 0, events: 12, organizerApplication: { organizationName: 'EventCo', phone: '555-1234', website: 'https://eventco.com', description: 'Professional event organizing company', status: 'APPROVED' } },
 ];
 
 

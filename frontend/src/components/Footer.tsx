@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 export default function Footer() {
   const { user } = useAuth();
-  const [superadminEmail, setSuperadminEmail] = useState<string>('superadmin@eventflow.com');
+  const [superadminEmail, setSuperadminEmail] = useState<string>('superadmin@spotyourvibe.com');
   const [superadminPhone, setSuperadminPhone] = useState<string>('');
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function Footer() {
             <h4 className="text-xs uppercase tracking-wider text-gray-400 font-semibold mb-3">Contact</h4>
             <ul className="space-y-2">
               <li>
-                <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${superadminEmail}&su=Contact EventFlow`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors">
+                <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${superadminEmail}&su=Contact SpotYourVibe`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors">
                   <Mail className="w-4 h-4 shrink-0" />
                   <span className="truncate">{superadminEmail}</span>
                 </a>
@@ -108,7 +108,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-6 border-t border-gray-200 text-center text-xs text-gray-400">
-          © 2026 EventFlow. All rights reserved.
+          © 2026 SpotYourVibe. All rights reserved.
         </div>
       </div>
     </footer>

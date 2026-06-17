@@ -9,11 +9,11 @@ async function main() {
   // Create Admin User
   const hashedAdminPassword = await bcrypt.hash('admin123', 10);
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@eventflow.com' },
+    where: { email: 'admin@spotyourvibe.com' },
     update: {},
     create: {
       name: 'Admin User',
-      email: 'admin@eventflow.com',
+      email: 'admin@spotyourvibe.com',
       password: hashedAdminPassword,
       role: 'ADMIN',
     },
@@ -23,25 +23,25 @@ async function main() {
   // Create SuperAdmin User
   const hashedSuperAdminPassword = await bcrypt.hash('superadmin123', 10);
   await prisma.user.upsert({
-    where: { email: 'superadmin@eventflow.com' },
+    where: { email: 'superadmin@spotyourvibe.com' },
     update: {},
     create: {
       name: 'Super Admin',
-      email: 'superadmin@eventflow.com',
+      email: 'superadmin@spotyourvibe.com',
       password: hashedSuperAdminPassword,
       role: 'SUPERADMIN',
     },
   });
-  console.log('✅ SuperAdmin user created: superadmin@eventflow.com');
+  console.log('✅ SuperAdmin user created: superadmin@spotyourvibe.com');
 
   // Create Verified Organizer
   const hashedOrganizerPassword = await bcrypt.hash('organizer123', 10);
   const organizer = await prisma.user.upsert({
-    where: { email: 'organizer@eventflow.com' },
+    where: { email: 'organizer@spotyourvibe.com' },
     update: {},
     create: {
       name: 'Event Organizer',
-      email: 'organizer@eventflow.com',
+      email: 'organizer@spotyourvibe.com',
       password: hashedOrganizerPassword,
       role: 'ORGANIZER',
     },
@@ -66,11 +66,11 @@ async function main() {
   // Create Regular User
   const hashedUserPassword = await bcrypt.hash('user123', 10);
   const user = await prisma.user.upsert({
-    where: { email: 'user@eventflow.com' },
+    where: { email: 'user@spotyourvibe.com' },
     update: {},
     create: {
       name: 'John Doe',
-      email: 'user@eventflow.com',
+      email: 'user@spotyourvibe.com',
       password: hashedUserPassword,
       role: 'USER',
     },
@@ -267,7 +267,7 @@ async function main() {
       eventId: event1.id,
       seatsReserved: 2,
       contactName: 'John Doe',
-      contactEmail: 'user@eventflow.com',
+      contactEmail: 'user@spotyourvibe.com',
       contactPhone: '+1234567890',
     },
   });

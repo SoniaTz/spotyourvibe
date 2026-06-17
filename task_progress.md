@@ -32,7 +32,10 @@ Frontend (Vercel)                          Backend (Render)
 
 ## 3. BACKEND — Deploy to Render
 
-### Step 3.1: PostgreSQL Migration — ✅ DONE
+### Step 3.1: PostgreSQL Migration — ✅ DONE (with migration fix)
+
+> **⚠️ Previous error**: Render failed with `P3019 - provider mismatch (sqlite vs postgresql)`
+> **✅ Fix applied**: Old SQLite migrations deleted, fresh PostgreSQL migration created and pushed
 
 The following changes have been made to your codebase:
 

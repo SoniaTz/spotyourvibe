@@ -17,7 +17,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [superadminEmail, setSuperadminEmail] = useState('superadmin@eventflow.com');
+  const [superadminEmail, setSuperadminEmail] = useState('superadmin@spotyourvibe.com');
 
   useEffect(() => {
     const fetchEmail = async () => {
@@ -52,9 +52,9 @@ export default function Login() {
 
   const demoAccounts = [
     { email: superadminEmail, password: 'superadmin123', role: 'SuperAdmin' },
-    { email: 'admin@eventflow.com', password: 'admin123', role: 'Admin' },
-    { email: 'organizer@eventflow.com', password: 'organizer123', role: 'Organizer' },
-    { email: 'user@eventflow.com', password: 'user123', role: 'User' }
+    { email: 'admin@spotyourvibe.com', password: 'admin123', role: 'Admin' },
+    { email: 'organizer@spotyourvibe.com', password: 'organizer123', role: 'Organizer' },
+    { email: 'user@spotyourvibe.com', password: 'user123', role: 'User' }
   ];
 
   const fillDemoAccount = (email: string, password: string) => {

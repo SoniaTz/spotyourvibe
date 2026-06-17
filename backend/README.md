@@ -367,15 +367,15 @@ The SQLite database includes:
 ### Test Accounts (created by seed script)
 
 **Admin:**
-- Email: `admin@eventflow.com`
+- Email: `admin@spotyourvibe.com`
 - Password: `admin123`
 
 **Organizer (Verified):**
-- Email: `organizer@eventflow.com`
+- Email: `organizer@spotyourvibe.com`
 - Password: `organizer123`
 
 **Regular User:**
-- Email: `user@eventflow.com`
+- Email: `user@spotyourvibe.com`
 - Password: `user123`
 
 ### How to Use JWT Authentication
@@ -574,7 +574,7 @@ curl -X POST http://localhost:5000/api/auth/register \
 curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "admin@eventflow.com",
+    "email": "admin@spotyourvibe.com",
     "password": "admin123"
   }'
 ```
