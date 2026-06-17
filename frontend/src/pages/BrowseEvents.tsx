@@ -63,6 +63,7 @@ export default function BrowseEvents() {
   const [events, setEvents] = useState<MappedEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('date-soonest');
+  const [visibleCount, setVisibleCount] = useState(12);
   const categories = ['All', 'Music', 'Conference', 'Sports', 'Entertainment', 'Arts', 'Food & Drink'];
   const dateFilters = ['All Dates', 'Today', 'This Week', 'This Month', 'This Year'];
 
@@ -316,7 +317,7 @@ export default function BrowseEvents() {
             </div>
           ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredEvents.map((event, index) => (
+            {filteredEvents.slice(0, visibleCount).map((event, index) => (
               <motion.div
                 key={event.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -382,11 +383,19 @@ export default function BrowseEvents() {
           )}
 
           {/* Load More */}
-          {filteredEvents.length > 0 && (
+          {filteredEvents.length > visibleCount && (
             <div className="mt-12 text-center">
-              <button className="px-8 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg hover:border-gray-400 hover:shadow-md transition-all">
-                Load More Events
+              <button
+                onClick={() => setVisibleCount(prev => prev + 12)}
+                className="px-8 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg hover:border-gray-400 hover:shadow-md transition-all"
+              >
+                Load More Events ({filteredEvents.length - visibleCount} remaining)
               </button>
+            </div>
+          )}
+          {filteredEvents.length > 0 && filteredEvents.length <= visibleCount && (
+            <div className="mt-12 text-center">
+              <p className="text-sm text-gray-500">All events loaded</p>
             </div>
           )}
         </div>
