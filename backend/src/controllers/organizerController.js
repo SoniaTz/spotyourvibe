@@ -33,7 +33,7 @@ export const applyForOrganizer = async (req, res, next) => {
     });
 
     // Notify all admins about the new application
-    const user = await prisma.user.findUnique({ where: { userId }, select: { name: true } });
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
     await notifyAdmins(
       'NEW_ORGANIZER_APPLICATION',
       `New organizer application from ${user?.name || 'a user'} (${organizationName}). Awaiting review.`
