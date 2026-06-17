@@ -6,15 +6,17 @@ export const applyForOrganizer = async (req, res, next) => {
     const { organizationName, phone, description, website } = req.body;
     const userId = req.user.id;
 
-    // Check if user already has an application
+    // Check if user already has a pending or approved application
     const existingApplication = await prisma.organizerApplication.findUnique({
       where: { userId }
     });
 
-    if (existingApplication) {
+    if (existingApplication && existingApplication.status !== 'REJECTED') {
       return res.status(400).json({
         success: false,
-        message: 'You have already submitted an organizer application'
+        message: existingApplication.status === 'PENDING'
+          ? 'You already have a pending application. Please wait for admin review.'
+          : 'Your organizer application has already been approved.'
       });
     }
 

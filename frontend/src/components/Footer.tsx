@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, Ticket } from 'lucide-react';
 import { apiRequest } from '../lib/api';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Footer() {
+  const { user } = useAuth();
   const [superadminEmail, setSuperadminEmail] = useState<string>('superadmin@eventflow.com');
   const [superadminPhone, setSuperadminPhone] = useState<string>('');
 
@@ -57,8 +59,20 @@ export default function Footer() {
             <ul className="space-y-2">
               <li><Link to="/profile" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">My Profile</Link></li>
               <li><Link to="/dashboard" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">My Tickets</Link></li>
-              <li><Link to="/organizer/events/create" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">Create Event</Link></li>
-              <li><Link to="/become-organizer" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">Become an Organizer</Link></li>
+              <li>
+                {!user ? (
+                  <Link to="/signup" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">Create Event</Link>
+                ) : user.role === 'user' || user.role === 'visitor' ? (
+                  <Link to="/become-organizer" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">Create Event</Link>
+                ) : (
+                  <Link to="/organizer/events/create" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">Create Event</Link>
+                )}
+              </li>
+              {(!user || user.role === 'user' || user.role === 'visitor') && (
+                <li>
+                  <Link to={!user ? '/signup' : '/become-organizer'} className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">Become an Organizer</Link>
+                </li>
+              )}
             </ul>
           </div>
 

@@ -239,19 +239,16 @@ export default function BecomeOrganizer() {
               <div className="flex items-center justify-center py-12">
                 <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
               </div>
-            ) : existingApplication ? (
+            ) : existingApplication && existingApplication.status !== 'REJECTED' ? (
               <div className="text-center py-8">
-                <CheckCircle className={`w-16 h-16 mx-auto mb-4 ${existingApplication.status === 'APPROVED' ? 'text-green-500' : existingApplication.status === 'REJECTED' ? 'text-red-500' : 'text-yellow-500'}`} />
+                <CheckCircle className={`w-16 h-16 mx-auto mb-4 ${existingApplication.status === 'APPROVED' ? 'text-green-500' : 'text-yellow-500'}`} />
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">
                   {existingApplication.status === 'APPROVED' ? 'Application Approved!' :
-                   existingApplication.status === 'REJECTED' ? 'Application Rejected' :
                    'Application Under Review'}
                 </h2>
                 <p className="text-gray-600 mb-2">
                   {existingApplication.status === 'APPROVED' 
                     ? 'Your organizer application has been approved. You can now create events!'
-                    : existingApplication.status === 'REJECTED'
-                    ? 'Your organizer application was not approved. Please contact support for more information.'
                     : 'Your application is being reviewed by our team. You will be notified once a decision is made.'}
                 </p>
                 <div className="mt-6 space-y-2 text-sm text-left max-w-sm mx-auto">
@@ -261,7 +258,7 @@ export default function BecomeOrganizer() {
                   </div>
                   <div className="flex justify-between bg-gray-50 rounded-lg px-4 py-2">
                     <span className="text-gray-500">Status</span>
-                    <span className={`font-medium ${existingApplication.status === 'APPROVED' ? 'text-green-600' : existingApplication.status === 'REJECTED' ? 'text-red-600' : 'text-yellow-600'}`}>
+                    <span className={`font-medium ${existingApplication.status === 'APPROVED' ? 'text-green-600' : 'text-yellow-600'}`}>
                       {existingApplication.status}
                     </span>
                   </div>
