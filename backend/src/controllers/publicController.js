@@ -23,10 +23,10 @@ export const getContactInfo = async (req, res, next) => {
       });
     }
 
-    // Always serve the correct domain, even if DB has old data
+    // Always serve info@spotyourvibe.com as the superadmin contact
     const data = {
       ...superadmin,
-      email: superadmin.email.replace('@eventflow.com', '@spotyourvibe.com')
+      email: 'info@spotyourvibe.com'
     };
 
     res.json({

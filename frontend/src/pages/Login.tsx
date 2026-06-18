@@ -17,21 +17,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [superadminEmail, setSuperadminEmail] = useState('info@spotyourvibe.com');
-
-  useEffect(() => {
-    const fetchEmail = async () => {
-      try {
-        const res = await apiRequest<{ success?: boolean; data?: { email: string } }>('/public/contact');
-        if (res?.data?.email) {
-          setSuperadminEmail(res.data.email);
-        }
-      } catch {
-        // Keep default
-      }
-    };
-    fetchEmail();
-  }, []);
+  const superadminEmail = 'info@spotyourvibe.com';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
