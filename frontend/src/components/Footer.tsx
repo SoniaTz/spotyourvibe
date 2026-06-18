@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 export default function Footer() {
   const { user } = useAuth();
-  const [superadminEmail, setSuperadminEmail] = useState<string>('superadmin@spotyourvibe.com');
+  const [superadminEmail, setSuperadminEmail] = useState<string>('info@spotyourvibe.com');
   const [superadminPhone, setSuperadminPhone] = useState<string>('');
 
   useEffect(() => {

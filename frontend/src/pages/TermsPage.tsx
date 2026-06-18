@@ -68,7 +68,7 @@ const sections = [
 ];
 
 export default function TermsPage() {
-  const [superadminEmail, setSuperadminEmail] = useState<string>('superadmin@spotyourvibe.com');
+  const [superadminEmail, setSuperadminEmail] = useState<string>('info@spotyourvibe.com');
 
   useEffect(() => {
     const fetchContactInfo = async () => {

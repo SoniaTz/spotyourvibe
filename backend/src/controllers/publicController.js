@@ -16,7 +16,7 @@ export const getContactInfo = async (req, res, next) => {
       return res.json({
         success: true,
         data: {
-          email: 'superadmin@spotyourvibe.com',
+          email: 'info@spotyourvibe.com',
           phone: '+1 (555) 000-0000',
           name: 'Super Admin'
         }

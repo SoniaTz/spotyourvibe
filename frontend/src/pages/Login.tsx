@@ -17,7 +17,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [superadminEmail, setSuperadminEmail] = useState('superadmin@spotyourvibe.com');
+  const [superadminEmail, setSuperadminEmail] = useState('info@spotyourvibe.com');
 
   useEffect(() => {
     const fetchEmail = async () => {

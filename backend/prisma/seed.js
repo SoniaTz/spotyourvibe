@@ -23,16 +23,16 @@ async function main() {
   // Create SuperAdmin User
   const hashedSuperAdminPassword = await bcrypt.hash('superadmin123', 10);
   await prisma.user.upsert({
-    where: { email: 'superadmin@spotyourvibe.com' },
+    where: { email: 'info@spotyourvibe.com' },
     update: {},
     create: {
       name: 'Super Admin',
-      email: 'superadmin@spotyourvibe.com',
+      email: 'info@spotyourvibe.com',
       password: hashedSuperAdminPassword,
       role: 'SUPERADMIN',
     },
   });
-  console.log('✅ SuperAdmin user created: superadmin@spotyourvibe.com');
+  console.log('✅ SuperAdmin user created: info@spotyourvibe.com');
 
   // Create Verified Organizer
   const hashedOrganizerPassword = await bcrypt.hash('organizer123', 10);
