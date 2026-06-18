@@ -824,11 +824,11 @@ export const demoteFromAdmin = async (req, res, next) => {
       });
     }
 
-    // Check if user has an organizer application - restore to ORGANIZER if approved
+    // Check if user has an organizer application - restore to ORGANIZER if one exists (even if rejected)
     const organizerApp = await prisma.organizerApplication.findUnique({
       where: { userId: id }
     });
-    const originalRole = organizerApp?.status === 'APPROVED' ? 'ORGANIZER' : 'USER';
+    const originalRole = organizerApp ? 'ORGANIZER' : 'USER';
 
     const updatedUser = await prisma.user.update({
       where: { id },
