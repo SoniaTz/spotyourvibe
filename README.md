@@ -72,6 +72,7 @@ The application is deployed and accessible at:
 ### Demo Credentials
 
 After running the seed script, you can log in with:
+- **SuperAdmin**: `info@spotyourvibe.com` / `superadmin123`
 - **Admin**: `admin@spotyourvibe.com` / `admin123`
 - **Organizer**: `organizer@spotyourvibe.com` / `organizer123`
 - **User**: `user@spotyourvibe.com` / `user123`

@@ -36,16 +36,6 @@ export default function Login() {
     }
   };
 
-  const demoAccounts = [
-    { email: superadminEmail, password: 'superadmin123', role: 'SuperAdmin' },
-    { email: 'admin@spotyourvibe.com', password: 'admin123', role: 'Admin' },
-    { email: 'organizer@spotyourvibe.com', password: 'organizer123', role: 'Organizer' },
-    { email: 'user@spotyourvibe.com', password: 'user123', role: 'User' }
-  ];
-
-  const fillDemoAccount = (email: string, password: string) => {
-    setFormData({ email, password });
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
@@ -149,22 +139,6 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Demo Accounts */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <p className="text-sm text-gray-600 mb-3 text-center">Demo Accounts (for testing)</p>
-            <div className="space-y-2">
-              {demoAccounts.map((account) => (
-                <button
-                  key={account.email}
-                  onClick={() => fillDemoAccount(account.email, account.password)}
-                  className="w-full px-3 py-2 text-sm text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
-                >
-                  <span className="text-gray-900">{account.role}</span>
-                  <span className="text-gray-600">{account.email}</span>
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
 
         <div className="mt-6 text-center text-sm text-gray-600">
