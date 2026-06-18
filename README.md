@@ -1,8 +1,8 @@
-# EventFlow - Event Management System
+# SpotYourVibe - Event Management System
 
 A full-stack event management and ticketing platform built with React, Express.js, Prisma, and PostgreSQL. Create, manage, and book events with seat selection, analytics, comments, and real-time notifications.
 
-> 🌐 **Live Demo**: [https://eventflow-frontend-sable.vercel.app](https://eventflow-frontend-sable.vercel.app)
+> 🌐 **Live Demo**: [https://www.spotyourvibe.com](https://www.spotyourvibe.com)
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ A full-stack event management and ticketing platform built with React, Express.j
 
 ## Overview
 
-EventFlow is a comprehensive event management platform that allows users to:
+SpotYourVibe is a comprehensive event management platform that allows users to:
 - Browse and discover events with filtering and search
 - Create and manage events (as organizers) with venue and category selection
 - Book tickets with interactive seat map selection
@@ -65,9 +65,9 @@ The application is deployed and accessible at:
 
 | Service | URL | Hosting |
 |---------|-----|---------|
-| **Frontend** | [https://eventflow-frontend-sable.vercel.app](https://eventflow-frontend-sable.vercel.app) | Vercel |
-| **Backend API** | [https://eventflow-r4qb.onrender.com](https://eventflow-r4qb.onrender.com) | Render |
-| **Health Check** | [https://eventflow-r4qb.onrender.com/health](https://eventflow-r4qb.onrender.com/health) | Render |
+| **Frontend** | [https://www.spotyourvibe.com](https://www.spotyourvibe.com) | Vercel |
+| **Backend API** | [https://spotyourvibe-api.onrender.com](https://spotyourvibe-api.onrender.com) | Render |
+| **Health Check** | [https://spotyourvibe-api.onrender.com/health](https://spotyourvibe-api.onrender.com/health) | Render |
 
 ### Demo Credentials
 
@@ -80,7 +80,7 @@ After running the seed script, you can log in with:
 ## Project Structure
 
 ```
-eventflow/
+spotyourvibe/
 ├── frontend/                 # React frontend application
 │   ├── src/
 │   │   ├── components/       # Reusable components
@@ -184,7 +184,7 @@ NODE_ENV=development
 PORT=5000
 FRONTEND_URL=http://localhost:5173
 JWT_SECRET=your-secret-key-change-this-in-production
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/eventflow
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/spotyourvibe
 UPLOAD_DIR=./uploads
 EOF
 cd ..
@@ -287,7 +287,7 @@ NODE_ENV=development
 PORT=5000
 FRONTEND_URL=http://localhost:5173
 JWT_SECRET=your-super-secret-key-change-in-production
-DATABASE_URL=postgresql://user:password@localhost:5432/eventflow
+DATABASE_URL=postgresql://user:password@localhost:5432/spotyourvibe
 UPLOAD_DIR=./uploads
 ```
 
@@ -551,7 +551,7 @@ This opens a GUI at `http://localhost:5555`
 1. Make sure PostgreSQL is running locally
 2. Update `DATABASE_URL` in `backend/.env`:
 ```
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/eventflow
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/spotyourvibe
 ```
 3. Push the schema:
 ```bash
@@ -701,8 +701,8 @@ NODE_ENV=production npm start
 
 ## Project Status
 
-- **Live**: [https://eventflow-frontend-sable.vercel.app](https://eventflow-frontend-sable.vercel.app)
-- **Backend API**: [https://eventflow-r4qb.onrender.com](https://eventflow-r4qb.onrender.com)
+- **Live**: [https://www.spotyourvibe.com](https://www.spotyourvibe.com)
+- **Backend API**: [https://spotyourvibe-api.onrender.com](https://spotyourvibe-api.onrender.com)
 - **Backend** - Fully implemented with all APIs (auth, events, bookings, comments, analytics, notifications, admin, organizer)
 - **Frontend** - All pages and components created (17 pages, 8 components)
 - **Database** - Prisma schema and migrations complete (9 models) — PostgreSQL in production
@@ -729,4 +729,4 @@ Ready to start developing?
 2. Follow the **Quick Start** section above
 3. Visit http://localhost:5173 in your browser
 4. The API will be running at http://localhost:5000
-5. Or check out the live version at [https://eventflow-frontend-sable.vercel.app](https://eventflow-frontend-sable.vercel.app)
+5. Or check out the live version at [https://www.spotyourvibe.com](https://www.spotyourvibe.com)
