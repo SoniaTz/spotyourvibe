@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import SeatMap from '../components/SeatMap';
 import { apiRequest, API_BASE_URL } from '../lib/api';
+import { toast } from 'sonner';
 import { Calendar, MapPin, Clock, Share2, Heart, ArrowRight, X, Ticket, Info, LogIn, Loader2, Mail, Phone, Building2, Globe } from 'lucide-react';
 
 function ImageWithFallback(props: ImgHTMLAttributes<HTMLImageElement>) {
@@ -74,6 +75,7 @@ export default function EventDetail() {
   const { isAuthenticated } = useAuth();
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
   const [isFavorited, setIsFavorited] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState('about');
   const [event, setEvent] = useState<ApiEvent | null>(null);
   const [loading, setLoading] = useState(true);
@@ -81,6 +83,25 @@ export default function EventDetail() {
   const [showContactModal, setShowContactModal] = useState(false);
 
   const hasAssignedSeating = event?.seatingType === 'assigned';
+
+  // Load favorites from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem('favorites');
+    if (stored) {
+      setFavoriteIds(JSON.parse(stored));
+    }
+  }, []);
+
+  // Check if current event is favorited
+  useEffect(() => {
+    if (eventId) {
+      const stored = localStorage.getItem('favorites');
+      if (stored) {
+        const ids = JSON.parse(stored);
+        setIsFavorited(ids.includes(eventId));
+      }
+    }
+  }, [eventId]);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -155,6 +176,48 @@ export default function EventDetail() {
     );
   }
 
+  const toggleFavorite = () => {
+    if (!eventId) return;
+    
+    const stored = localStorage.getItem('favorites');
+    let ids: string[] = stored ? JSON.parse(stored) : [];
+    
+    if (isFavorited) {
+      ids = ids.filter((id: string) => id !== eventId);
+      toast.success('Removed from favorites');
+    } else {
+      ids = [...ids, eventId];
+      toast.success('Added to favorites');
+    }
+    
+    localStorage.setItem('favorites', JSON.stringify(ids));
+    setFavoriteIds(ids);
+    setIsFavorited(!isFavorited);
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: event?.title || 'Check out this event',
+      text: `🎫 ${event?.title}\n\n📅 ${formatDate(event?.startDate)}\n📍 ${event?.venue?.name || 'TBA'}\n\nGet your tickets at SpotYourVibe!`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: copy to clipboard
+        await navigator.clipboard.writeText(
+          `${shareData.title}\n\n${shareData.text}\n\n${shareData.url}`
+        );
+        toast.success('Event details copied to clipboard!');
+      }
+    } catch (err) {
+      // User cancelled or error occurred
+      console.log('Share cancelled or failed:', err);
+    }
+  };
+
   const handleProceedToCheckout = () => {
     if (hasAssignedSeating && selectedSeats.length > 0) {
       navigate('/checkout', { state: { event, selectedSeats } });
@@ -210,12 +273,15 @@ export default function EventDetail() {
               </div>
               <div className="flex gap-3">
                 <button
-                  onClick={() => setIsFavorited(!isFavorited)}
+                  onClick={toggleFavorite}
                   className="p-3 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white rounded-lg transition-colors"
                 >
-                  <Heart className={`w-5 h-5 ${isFavorited ? 'fill-current' : ''}`} />
+                  <Heart className={`w-5 h-5 ${isFavorited ? 'fill-current text-red-500' : ''}`} />
                 </button>
-                <button className="p-3 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white rounded-lg transition-colors">
+                <button
+                  onClick={handleShare}
+                  className="p-3 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white rounded-lg transition-colors"
+                >
                   <Share2 className="w-5 h-5" />
                 </button>
               </div>

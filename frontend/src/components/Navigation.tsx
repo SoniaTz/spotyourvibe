@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Menu, X, Ticket, LogOut, Shield, User } from 'lucide-react';
+import { Menu, X, Ticket, LogOut, Shield, User, Heart } from 'lucide-react';
 import NotificationsDropdown from './NotificationsDropdown';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -70,6 +70,18 @@ export default function Navigation() {
                 }`}
               >
                 My Tickets
+              </Link>
+            )}
+            
+            {isAuthenticated && (
+              <Link
+                to="/favorites"
+                className={`text-sm transition-colors flex items-center gap-1 ${
+                  isActive('/favorites') ? 'text-gray-900' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <Heart className="w-4 h-4" />
+                Favorites
               </Link>
             )}
 
@@ -268,6 +280,13 @@ export default function Navigation() {
                       My Tickets
                     </Link>
                   )}
+                  <Link
+                    to="/favorites"
+                    className="block px-3 py-2 text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Favorites
+                  </Link>
                   {user?.role === 'organizer' && (
                     <>
                       <Link
