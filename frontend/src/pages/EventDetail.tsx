@@ -119,8 +119,12 @@ export default function EventDetail() {
   const getImageUrl = (imagePath?: string) => {
     if (!imagePath) return 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaXZlJTIwbXVzaWMlMjBmZXN0aXZhbCUyMGNyb3dkfGVufDF8fHx8MTc4MTE5NjI4MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral';
     if (imagePath.startsWith('http')) return imagePath;
+    // Remove leading slash if present to avoid double slashes
+    const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
     const baseUrl = API_BASE_URL?.replace('/api', '') || 'http://localhost:5000';
-    return `${baseUrl}${imagePath}`;
+    const fullUrl = `${baseUrl}${cleanPath}`;
+    console.log('Image URL:', fullUrl, 'API_BASE_URL:', API_BASE_URL, 'imagePath:', imagePath);
+    return fullUrl;
   };
 
   // Check if event is in the past

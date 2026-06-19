@@ -50,8 +50,12 @@ export default function LandingPage() {
   const getImageUrl = (imagePath?: string) => {
     if (!imagePath) return undefined;
     if (imagePath.startsWith('http')) return imagePath;
+    // Remove leading slash if present to avoid double slashes
+    const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
     const baseUrl = API_BASE_URL?.replace('/api', '') || 'http://localhost:5000';
-    return `${baseUrl}${imagePath}`;
+    const fullUrl = `${baseUrl}${cleanPath}`;
+    console.log('LandingPage Image URL:', fullUrl, 'API_BASE_URL:', API_BASE_URL, 'imagePath:', imagePath);
+    return fullUrl;
   };
 
   const fetchTrendingEvents = useCallback(async () => {
