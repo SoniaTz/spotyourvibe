@@ -64,9 +64,9 @@ export default function Footer() {
                   <Link to="/signup" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">Create Event</Link>
                 ) : user.role === 'user' || user.role === 'visitor' ? (
                   <Link to="/become-organizer" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">Create Event</Link>
-                ) : (
+                ) : user.role === 'organizer' ? (
                   <Link to="/organizer/events/create" className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">Create Event</Link>
-                )}
+                ) : null}
               </li>
               {(!user || user.role === 'user' || user.role === 'visitor') && (
                 <li>
