@@ -36,6 +36,7 @@ interface TrendingEvent {
   image?: string;
   bookings: number;
   featured: boolean;
+  isFinished: boolean;
 }
 
 export default function LandingPage() {
@@ -58,16 +59,20 @@ export default function LandingPage() {
       setTrendingLoading(true);
       const res = await apiRequest<{ success?: boolean; data?: any[] }>('/events');
       if (Array.isArray(res?.data)) {
-        const events: TrendingEvent[] = res.data.map((e: any) => ({
-          id: e.id,
-          title: e.title,
-          category: e.category?.name || 'General',
-          date: e.startDate ? new Date(e.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'TBD',
-          location: e.venue ? `${e.venue.name}${e.venue.city ? ', ' + e.venue.city : ''}` : 'TBA',
-          image: getImageUrl(e.image),
-          bookings: e._count?.bookings || 0,
-          featured: false
-        }));
+        const events: TrendingEvent[] = res.data.map((e: any) => {
+          const isFinished = e.startDate ? new Date(e.startDate) < new Date() : false;
+          return {
+            id: e.id,
+            title: e.title,
+            category: e.category?.name || 'General',
+            date: e.startDate ? new Date(e.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'TBD',
+            location: e.venue ? `${e.venue.name}${e.venue.city ? ', ' + e.venue.city : ''}` : 'TBA',
+            image: getImageUrl(e.image),
+            bookings: e._count?.bookings || 0,
+            featured: false,
+            isFinished
+          };
+        });
 
         // Sort: most bookings first, then newest (by startDate descending)
         events.sort((a, b) => {
@@ -235,6 +240,11 @@ export default function LandingPage() {
                           <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-900 text-sm rounded-full">
                             {event.category}
                           </span>
+                          {event.isFinished && (
+                            <span className="ml-2 px-3 py-1 bg-gray-800 text-white text-sm rounded-full">
+                              Finished
+                            </span>
+                          )}
                         </div>
                         {event.featured && (
                           <div className="absolute top-4 right-4">
