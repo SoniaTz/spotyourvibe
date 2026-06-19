@@ -11,28 +11,28 @@ const sections = [
     icon: FileText,
     title: '1. Acceptance of Terms',
     content: [
-      'By accessing or using EventFlow, you agree to be bound by these Terms & Conditions. If you do not agree to any part of these terms, you may not access or use the platform.',
-      'EventFlow reserves the right to modify these terms at any time. Continued use of the platform after changes constitutes acceptance of the updated terms.'
+      'By accessing or using SpotYourVibe, you agree to be bound by these Terms & Conditions. If you do not agree to any part of these terms, you may not access or use the platform.',
+      'SpotYourVibe reserves the right to modify these terms at any time. Continued use of the platform after changes constitutes acceptance of the updated terms.'
     ]
   },
   {
     icon: Users,
     title: '2. User Accounts',
     content: [
-      'You must be at least 18 years old to create an account on EventFlow.',
+      'You must be at least 18 years old to create an account on SpotYourVibe.',
       'You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account.',
       'You agree to provide accurate, current, and complete information during registration and to update such information to keep it accurate.',
-      'EventFlow reserves the right to suspend or terminate accounts that violate these terms.'
+      'SpotYourVibe reserves the right to suspend or terminate accounts that violate these terms.'
     ]
   },
   {
     icon: Shield,
     title: '3. Event Creation & Management',
     content: [
-      'Organizers are solely responsible for the accuracy and legality of the events they create on EventFlow.',
-      'EventFlow reserves the right to review, approve, or reject any event submission at its discretion.',
+      'Organizers are solely responsible for the accuracy and legality of the events they create on SpotYourVibe.',
+      'SpotYourVibe reserves the right to review, approve, or reject any event submission at its discretion.',
       'Organizers must ensure their events comply with all applicable local, state, and federal laws.',
-      'EventFlow is not responsible for any issues, damages, or liabilities arising from events hosted through the platform.'
+      'SpotYourVibe is not responsible for any issues, damages, or liabilities arising from events hosted through the platform.'
     ]
   },
   {
@@ -40,26 +40,26 @@ const sections = [
     title: '4. Payments & Refunds',
     content: [
       'All ticket purchases are final unless a refund policy is explicitly stated by the event organizer.',
-      'EventFlow processes payments through secure third-party payment providers.',
+      'SpotYourVibe processes payments through secure third-party payment providers.',
       'Service fees and transaction charges may apply to ticket purchases and are non-refundable.',
-      'Refund requests should be directed to the event organizer. EventFlow may assist in facilitating refunds at the organizer\'s discretion.'
+      'Refund requests should be directed to the event organizer. SpotYourVibe may assist in facilitating refunds at the organizer\'s discretion.'
     ]
   },
   {
     icon: AlertTriangle,
     title: '5. Limitation of Liability',
     content: [
-      'EventFlow acts as a platform connecting event organizers and attendees. We are not a party to any transaction between them.',
-      'EventFlow shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform.',
+      'SpotYourVibe acts as a platform connecting event organizers and attendees. We are not a party to any transaction between them.',
+      'SpotYourVibe shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform.',
       'The platform is provided "as is" and "as available" without warranties of any kind, whether express or implied.',
-      'In no event shall EventFlow\'s total liability exceed the amount paid by you to EventFlow in the twelve months preceding the claim.'
+      'In no event shall SpotYourVibe\'s total liability exceed the amount paid by you to SpotYourVibe in the twelve months preceding the claim.'
     ]
   },
   {
     icon: Shield,
     title: '6. Privacy & Data Protection',
     content: [
-      'EventFlow collects and processes personal data in accordance with applicable data protection laws including GDPR.',
+      'SpotYourVibe collects and processes personal data in accordance with applicable data protection laws including GDPR.',
       'We use your data solely to provide and improve our services, process transactions, and communicate with you.',
       'Your personal information will never be sold to third parties without your explicit consent.',
       'You have the right to access, correct, or delete your personal data at any time through your account settings.'
@@ -108,7 +108,7 @@ export default function TermsPage() {
               Last updated: June 2026
             </p>
             <p className="text-gray-600 max-w-2xl">
-              Please read these terms carefully before using EventFlow. By using our platform,
+              Please read these terms carefully before using SpotYourVibe. By using our platform,
               you acknowledge that you have read, understood, and agree to be bound by these terms.
             </p>
           </motion.div>
