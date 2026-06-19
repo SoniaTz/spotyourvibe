@@ -1,6 +1,6 @@
 import { useLocation, Link } from 'react-router-dom';
 import Navigation from '../components/Navigation';
-import { CheckCircle, Download, Mail, Calendar, MapPin, Ticket, Share2, Clock, User, Smartphone } from 'lucide-react';
+import { CheckCircle, Download, Mail, Calendar, MapPin, Ticket, Share2, Clock, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { formatTicketId } from '../lib/utils';
