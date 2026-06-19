@@ -75,7 +75,6 @@ export default function EventDetail() {
   const { isAuthenticated } = useAuth();
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
   const [isFavorited, setIsFavorited] = useState(false);
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState('about');
   const [event, setEvent] = useState<ApiEvent | null>(null);
   const [loading, setLoading] = useState(true);
@@ -84,13 +83,6 @@ export default function EventDetail() {
 
   const hasAssignedSeating = event?.seatingType === 'assigned';
 
-  // Load favorites from localStorage
-  useEffect(() => {
-    const stored = localStorage.getItem('favorites');
-    if (stored) {
-      setFavoriteIds(JSON.parse(stored));
-    }
-  }, []);
 
   // Check if current event is favorited
   useEffect(() => {
@@ -191,7 +183,6 @@ export default function EventDetail() {
     }
     
     localStorage.setItem('favorites', JSON.stringify(ids));
-    setFavoriteIds(ids);
     setIsFavorited(!isFavorited);
   };
 
