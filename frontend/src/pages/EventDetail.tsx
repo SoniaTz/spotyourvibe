@@ -123,9 +123,7 @@ export default function EventDetail() {
     const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
     // Only remove /api from the END of the URL, not from the domain name
     const baseUrl = API_BASE_URL?.replace(/\/api$/, '') || 'http://localhost:5000';
-    const fullUrl = `${baseUrl}${cleanPath}`;
-    console.log('Image URL:', fullUrl, 'API_BASE_URL:', API_BASE_URL, 'imagePath:', imagePath);
-    return fullUrl;
+    return `${baseUrl}${cleanPath}`;
   };
 
   // Check if event is in the past
