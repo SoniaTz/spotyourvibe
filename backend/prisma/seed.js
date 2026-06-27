@@ -29,6 +29,17 @@ async function main() {
   });
   
   if (existingSuperAdmin) {
+    // Delete any conflicting user with soniaxhediku@gmail.com that isn't the superadmin
+    const conflictingUser = await prisma.user.findUnique({
+      where: { email: 'soniaxhediku@gmail.com' },
+    });
+    if (conflictingUser && conflictingUser.id !== existingSuperAdmin.id) {
+      await prisma.user.delete({
+        where: { id: conflictingUser.id },
+      });
+      console.log('✅ Removed conflicting user with soniaxhediku@gmail.com');
+    }
+    
     // Force update the email to soniaxhediku@gmail.com
     const superadmin = await prisma.user.update({
       where: { id: existingSuperAdmin.id },
