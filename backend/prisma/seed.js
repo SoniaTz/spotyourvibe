@@ -29,6 +29,17 @@ async function main() {
   });
   
   if (existingSuperAdmin && existingSuperAdmin.email !== 'info@spotyourvibe.com') {
+    // Before updating, delete any other user that might have the info@spotyourvibe.com email
+    const conflictingUser = await prisma.user.findUnique({
+      where: { email: 'info@spotyourvibe.com' },
+    });
+    if (conflictingUser && conflictingUser.id !== existingSuperAdmin.id) {
+      await prisma.user.delete({
+        where: { id: conflictingUser.id },
+      });
+      console.log('✅ Removed conflicting user with info@spotyourvibe.com email');
+    }
+    
     // Update the existing superadmin's email to the canonical one
     await prisma.user.update({
       where: { id: existingSuperAdmin.id },
