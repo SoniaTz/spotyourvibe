@@ -20,19 +20,37 @@ async function main() {
   });
   console.log('✅ Admin user created:', admin.email);
 
-  // Create SuperAdmin User
+  // Create / Fix SuperAdmin User
   const hashedSuperAdminPassword = await bcrypt.hash('superadmin123', 10);
-  const superadmin = await prisma.user.upsert({
-    where: { email: 'soniaxhediku@gmail.com' },
-    update: {},
-    create: {
-      name: 'Super Admin',
-      email: 'soniaxhediku@gmail.com',
-      password: hashedSuperAdminPassword,
-      role: 'SUPERADMIN',
-    },
+  
+  // Find any existing SUPERADMIN
+  const existingSuperAdmin = await prisma.user.findFirst({
+    where: { role: 'SUPERADMIN' },
   });
-  console.log('✅ SuperAdmin user created:', superadmin.email);
+  
+  if (existingSuperAdmin) {
+    // Force update the email to soniaxhediku@gmail.com
+    const superadmin = await prisma.user.update({
+      where: { id: existingSuperAdmin.id },
+      data: {
+        email: 'soniaxhediku@gmail.com',
+        name: 'Super Admin',
+        password: hashedSuperAdminPassword,
+      },
+    });
+    console.log('✅ SuperAdmin user updated:', superadmin.email);
+  } else {
+    // Create new superadmin
+    const superadmin = await prisma.user.create({
+      data: {
+        name: 'Super Admin',
+        email: 'soniaxhediku@gmail.com',
+        password: hashedSuperAdminPassword,
+        role: 'SUPERADMIN',
+      },
+    });
+    console.log('✅ SuperAdmin user created:', superadmin.email);
+  }
 
   // Create Verified Organizer
   const hashedOrganizerPassword = await bcrypt.hash('organizer123', 10);
