@@ -20,51 +20,25 @@ async function main() {
   });
   console.log('✅ Admin user created:', admin.email);
 
-  // Create / Fix SuperAdmin User
+  // Create SuperAdmin user only if one doesn't exist already
   const hashedSuperAdminPassword = await bcrypt.hash('superadmin123', 10);
-  
-  // First, check if there's an existing SUPERADMIN with a different email and reset it
   const existingSuperAdmin = await prisma.user.findFirst({
     where: { role: 'SUPERADMIN' },
   });
   
-  if (existingSuperAdmin && existingSuperAdmin.email !== 'info@spotyourvibe.com') {
-    // Before updating, delete any other user that might have the info@spotyourvibe.com email
-    const conflictingUser = await prisma.user.findUnique({
-      where: { email: 'info@spotyourvibe.com' },
-    });
-    if (conflictingUser && conflictingUser.id !== existingSuperAdmin.id) {
-      await prisma.user.delete({
-        where: { id: conflictingUser.id },
-      });
-      console.log('✅ Removed conflicting user with info@spotyourvibe.com email');
-    }
-    
-    // Update the existing superadmin's email to the canonical one
-    await prisma.user.update({
-      where: { id: existingSuperAdmin.id },
+  if (!existingSuperAdmin) {
+    await prisma.user.create({
       data: {
-        email: 'info@spotyourvibe.com',
-        name: 'Super Admin',
-        password: hashedSuperAdminPassword,
-      },
-    });
-    console.log('✅ SuperAdmin email reset to: info@spotyourvibe.com');
-  } else {
-    await prisma.user.upsert({
-      where: { email: 'info@spotyourvibe.com' },
-      update: {
-        name: 'Super Admin',
-        password: hashedSuperAdminPassword,
-      },
-      create: {
         name: 'Super Admin',
         email: 'info@spotyourvibe.com',
         password: hashedSuperAdminPassword,
         role: 'SUPERADMIN',
       },
     });
-    console.log('✅ SuperAdmin user created/updated: info@spotyourvibe.com');
+    console.log('✅ SuperAdmin user created: info@spotyourvibe.com');
+  } else {
+    // Don't override the email - keep whatever the user set in their profile
+    console.log('✅ SuperAdmin already exists, keeping their profile email:', existingSuperAdmin.email);
   }
 
   // Create Verified Organizer
