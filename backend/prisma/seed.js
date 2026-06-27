@@ -6,6 +6,28 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Seeding database...');
 
+  // Clean up old conflicting records that may have been created by previous seeds
+  // The contact email is now dynamically fetched from the superadmin's profile,
+  // so we only need to ensure there's one superadmin with their real email.
+  const superAdmin = await prisma.user.findFirst({
+    where: { role: 'SUPERADMIN' },
+  });
+
+  if (superAdmin) {
+    // Delete any other user records with conflicting emails (info@, hey@ etc.)
+    // that are NOT the superadmin
+    const staleEmails = ['info@spotyourvibe.com', 'hey@spotyourvibe.com'];
+    for (const email of staleEmails) {
+      if (email !== superAdmin.email) {
+        const staleUser = await prisma.user.findUnique({ where: { email } });
+        if (staleUser) {
+          await prisma.user.delete({ where: { id: staleUser.id } });
+          console.log(`✅ Removed stale user record: ${email}`);
+        }
+      }
+    }
+  }
+
   // Create Admin User
   const hashedAdminPassword = await bcrypt.hash('admin123', 10);
   const admin = await prisma.user.upsert({
