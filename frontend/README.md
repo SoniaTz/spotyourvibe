@@ -1,6 +1,6 @@
-# EventFlow Frontend
+# SpotYourVibe Frontend
 
-A modern React + TypeScript event management platform frontend built with Vite, Tailwind CSS, and React Router.
+A modern React + TypeScript event management platform frontend built with Vite, Tailwind CSS, and React Router — part of the SpotYourVibe ecosystem.
 
 ## 🚀 Quick Start
 
@@ -46,13 +46,19 @@ The application will start on **http://localhost:5173**
 frontend/
 ├── src/
 │   ├── components/          # Reusable React components
+│   │   ├── ConfirmModal.tsx
+│   │   ├── Footer.tsx
+│   │   ├── LocationPicker.tsx     # Map-based venue picker (Leaflet)
 │   │   ├── Navigation.tsx
-│   │   ├── Toaster.tsx
-│   │   ├── SeatMap.tsx
-│   │   └── OrganizerRequiredModal.tsx
-│   ├── contexts/            # React Context for state management
+│   │   ├── NotificationsDropdown.tsx
+│   │   ├── OrganizerRequiredModal.tsx
+│   │   ├── SeatMap.tsx            # Interactive seat selection
+│   │   └── Toaster.tsx
+│   ├── contexts/                  # React Context for state management
 │   │   └── AuthContext.tsx
-│   ├── pages/               # Page components for each route
+│   ├── lib/                       # Utility libraries
+│   │   └── api.ts                 # API request helper
+│   ├── pages/                     # Page components for each route
 │   │   ├── LandingPage.tsx
 │   │   ├── BrowseEvents.tsx
 │   │   ├── EventDetail.tsx
@@ -63,30 +69,37 @@ frontend/
 │   │   ├── CreateEvent.tsx
 │   │   ├── Login.tsx
 │   │   ├── Signup.tsx
-│   │   └── AdminDashboard.tsx
-│   ├── App.tsx              # Main app component with routes
-│   ├── main.tsx             # React entry point
-│   └── index.css            # Global styles
-├── public/                  # Static assets
-├── index.html              # HTML entry point
-├── vite.config.ts          # Vite configuration
-├── tailwind.config.js      # Tailwind CSS configuration
-├── postcss.config.js       # PostCSS configuration
-├── tsconfig.json           # TypeScript configuration
-└── package.json            # Project dependencies
+│   │   ├── ForgotPassword.tsx
+│   │   ├── AdminDashboard.tsx
+│   │   ├── NotificationsPage.tsx
+│   │   ├── PrivacyPage.tsx
+│   │   └── TermsPage.tsx
+│   ├── App.tsx                    # Main app component with routes
+│   ├── main.tsx                   # React entry point
+│   └── index.css                  # Global styles
+├── public/                        # Static assets
+├── index.html                    # HTML entry point
+├── vite.config.ts                # Vite configuration
+├── tailwind.config.js            # Tailwind CSS configuration
+├── postcss.config.js             # PostCSS configuration
+├── tsconfig.json                 # TypeScript configuration
+└── package.json                  # Project dependencies
 ```
 
 ## 🎨 Features
 
-- **Browse Events** - Explore and discover upcoming events
-- **Event Details** - View detailed information about events
-- **User Dashboard** - Manage bookings and profile
-- **Organizer Dashboard** - Create and manage events with analytics
-- **Admin Dashboard** - Administrative tools and user management
-- **Event Creation** - Create new events with images and details
-- **Seat Selection** - Interactive seat map for event bookings
+- **Browse Events** - Explore and discover upcoming events with filtering
+- **Event Details** - View detailed information with lineup, images, and seating
+- **User Dashboard** - Manage bookings, profile, password, and notifications
+- **Organizer Dashboard** - Create/manage events with analytics and revenue tracking
+- **Admin Dashboard** - User management, event moderation, venue/category CRUD
+- **Event Creation** - Create events with images, seat maps, and venue selection
+- **Seat Selection** - Interactive seat map for assigned seating events
+- **PDF Tickets** - Generate and download PDF tickets for bookings
+- **Comments & Reviews** - Leave and manage comments on events
+- **Real-time Notifications** - Stay updated on bookings and event changes
 - **Responsive Design** - Works seamlessly on desktop and mobile
-- **Authentication** - Secure user login and signup
+- **Authentication** - Secure login, signup, and password recovery
 
 ## 🔗 API Connection
 
@@ -96,14 +109,17 @@ Default: `http://localhost:5000/api`
 
 ## 📦 Key Dependencies
 
-- **React** - UI library
+- **React 18** - UI library
 - **React Router** - Client-side routing
 - **Tailwind CSS** - Utility-first CSS framework
 - **Axios** - HTTP client
 - **Lucide React** - Icon library
 - **Sonner** - Toast notifications
-- **Motion** - Animation library
+- **Framer Motion** - Animation library
 - **Recharts** - Data visualization
+- **Leaflet** - Interactive maps for venue location
+- **jsPDF** - PDF ticket generation
+- **react-datepicker** - Date picker component
 
 ## 🛠️ Development
 

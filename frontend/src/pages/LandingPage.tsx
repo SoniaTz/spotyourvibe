@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import OrganizerRequiredModal from '../components/OrganizerRequiredModal';
-import { ArrowRight, Ticket, Users, BarChart3, Shield, Zap, Calendar, MapPin, Loader2 } from 'lucide-react';
+import { ArrowRight, Ticket, Users, BarChart3, Zap, Calendar, MapPin, Loader2 } from 'lucide-react';
 import { apiRequest, API_BASE_URL } from '../lib/api';
 import { motion } from 'framer-motion';
 
@@ -130,11 +130,6 @@ export default function LandingPage() {
       icon: BarChart3,
       title: 'Analytics Dashboard',
       description: 'Deep insights into attendance trends and event performance metrics'
-    },
-    {
-      icon: Shield,
-      title: 'Secure Payments',
-      description: 'Bank-level security with multiple payment methods and instant payouts'
     },
     {
       icon: Zap,

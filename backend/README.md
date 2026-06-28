@@ -1,6 +1,6 @@
-# EventFlow Backend
+# SpotYourVibe Backend
 
-Express.js REST API for the EventFlow event management system. Built with Prisma ORM, SQLite, JWT authentication, and role-based access control.
+Express.js REST API for the SpotYourVibe event management system. Built with Prisma ORM, SQLite/PostgreSQL, JWT authentication, and role-based access control.
 
 ## 🚀 Quick Start
 
@@ -106,7 +106,7 @@ backend/
 
 ### Authentication & Authorization
 - JWT-based authentication
-- Role-based access control (USER, ORGANIZER, ADMIN)
+- Role-based access control (USER, ORGANIZER, ADMIN, SUPERADMIN)
 - Secure password hashing with bcrypt
 - Token refresh mechanism
 
@@ -127,6 +127,10 @@ backend/
 - Revenue tracking
 - Attendee management
 - Event promotion tools
+
+### Comments & Notifications
+- Full CRUD comments/reviews on events
+- Real-time notification system
 
 ### Admin Features
 - User management
@@ -584,55 +588,6 @@ curl -X POST http://localhost:5000/api/auth/login \
 ```bash
 curl -X GET http://localhost:5000/api/events \
   -H "Authorization: Bearer YOUR_JWT_TOKEN"
-```
-
----
-
-## 📊 Project Structure
-
-```
-backend/
-├── src/
-│   ├── config/
-│   │   ├── database.js       # Prisma client
-│   │   └── multer.js         # File upload config
-│   ├── controllers/
-│   │   ├── authController.js
-│   │   ├── eventController.js
-│   │   ├── bookingController.js
-│   │   ├── organizerController.js
-│   │   └── adminController.js
-│   ├── middlewares/
-│   │   ├── auth.js           # JWT verification
-│   │   ├── roleCheck.js      # Role-based access
-│   │   └── errorHandler.js   # Global error handler
-│   ├── routes/
-│   │   ├── authRoutes.js
-│   │   ├── eventRoutes.js
-│   │   ├── bookingRoutes.js
-│   │   ├── organizerRoutes.js
-│   │   ├── adminRoutes.js
-│   │   └── publicRoutes.js
-│   ├── validators/
-│   │   ├── authValidator.js
-│   │   ├── eventValidator.js
-│   │   ├── bookingValidator.js
-│   │   └── organizerValidator.js
-│   ├── utils/
-│   │   └── jwt.js            # JWT helpers
-│   └── server.js             # Main application
-├── prisma/
-│   ├── schema.prisma         # Database schema
-│   ├── seed.js               # Database seeder
-│   └── dev.db                # SQLite database (generated)
-├── uploads/                  # File uploads (gitignored)
-│   ├── events/
-│   └── documents/
-├── .env                      # Environment variables (gitignored)
-├── .env.example              # Environment template
-├── .gitignore
-├── package.json
-└── README.md
 ```
 
 ---
